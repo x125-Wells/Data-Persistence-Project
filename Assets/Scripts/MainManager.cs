@@ -21,6 +21,9 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     private int highScore;
+    private string highScorePlayer;
+    private string playerName;
+
 
     
     // Start is called before the first frame update
@@ -82,14 +85,31 @@ public class MainManager : MonoBehaviour
         if (m_Points > highScore)
         {
             highScore = m_Points;
+            highScorePlayer = PlayerPrefs.GetString("PlayerName", "Player");
+
             PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.SetString("HighScorePlayer", highScorePlayer);
             PlayerPrefs.Save();
+
+            Debug.Log($"New High Score Saved! {highScorePlayer} - {highScore}");
         }
     }
 
     void LoadHighScore()
     {
-        highScore = PlayerPrefs.GetInt("HighSCore", 0);
-        HighScoreText.text = $"High Score: {highScore}";
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        highScorePlayer = PlayerPrefs.GetString("HighScorePlayer", "None");
+
+        Debug.Log($"Loaded High Score: {highScorePlayer} - {highScore}");
+
+        if (HighScoreText != null)
+        {
+            HighScoreText.text = $"High Score: {highScore}";
+        }
+        else
+        {
+            Debug.LogWarning("HighScoreText UI is not assigned in the inspector!");
+        }
     }
 }
