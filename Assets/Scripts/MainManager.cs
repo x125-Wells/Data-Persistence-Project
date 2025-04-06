@@ -74,6 +74,11 @@ public class MainManager : MonoBehaviour
         {
             SceneManager.LoadScene("Intro");
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ResetHighScore();//call the reset high score method
+        }
     }
 
     void AddPoint(int point)
@@ -98,6 +103,11 @@ public class MainManager : MonoBehaviour
 
             Debug.Log($"New High Score Saved! {highScorePlayer} - {highScore}");
         }
+
+        if (HighScoreText != null)
+        {
+            HighScoreText.text = $"High Score: {highScorePlayer} - {highScore}";
+        }
     }
 
     void LoadHighScore()
@@ -117,4 +127,19 @@ public class MainManager : MonoBehaviour
             Debug.LogWarning("HighScoreText UI is not assigned in the inspector!");
         }
     }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey("HighScore");
+        PlayerPrefs.DeleteKey("HighScorePlayer");
+        PlayerPrefs.Save();
+
+        if (HighScoreText != null )
+        {
+            HighScoreText.text = "High Score: None - 0";
+        }
+        Debug.Log("High score reset.");
+    }
+
+    
 }
